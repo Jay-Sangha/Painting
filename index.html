@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WebGL Paint — Assignment 1</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    .layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    #glcanvas {
+      border: 2px solid #4a4a6a;
+      background: #fff;
+      cursor: crosshair;
+      display: block;
+    }
+    .controls {
+      min-width: 280px;
+      max-width: 340px;
+      background: #16213e;
+      padding: 14px;
+      border-radius: 8px;
+    }
+    .controls h2 {
+      margin: 12px 0 8px;
+      font-size: 0.95rem;
+      color: #a8dadc;
+    }
+    .controls h2:first-child { margin-top: 0; }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+      font-size: 0.9rem;
+    }
+    label span.val { min-width: 28px; text-align: right; color: #a8dadc; }
+    input[type="range"] { flex: 1; }
+    .brush-btns, .action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      background: #457b9d;
+      color: #fff;
+    }
+    button:hover { background: #1d3557; }
+    button.active { background: #e63946; }
+    button.secondary { background: #2a9d8f; }
+    #colorPreview {
+      width: 100%;
+      height: 28px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      margin-top: 4px;
+    }
+    .ref-section {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #4a4a6a;
+    }
+    .ref-section img {
+      max-width: 100%;
+      border: 1px solid #555;
+      border-radius: 4px;
+    }
+    .awesome-note {
+      background: #0f3460;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      margin-top: 8px;
+    }
+    .awesome-note strong { color: #f4a261; }
+  </style>
+</head>
+<body>
+  <h1>WebGL Geometric Paint</h1>
+  <p style="margin:0 0 12px; color:#aaa; font-size:0.9rem;">
+    Click or drag on the canvas to paint. Choose brush type and colors with the controls.
+  </p>
+
+  <div class="layout">
+    <canvas id="glcanvas" width="600" height="600"></canvas>
+
+    <div class="controls">
+      <h2>Brush type</h2>
+      <div class="brush-btns">
+        <button id="btnPoint" class="active" type="button">Point</button>
+        <button id="btnTriangle" type="button">Triangle</button>
+        <button id="btnCircle" type="button">Circle</button>
+      </div>
+
+      <h2>Color (RGB)</h2>
+      <label>Red <input type="range" id="sliderRed" min="0" max="255" value="200"><span class="val" id="valRed">200</span></label>
+      <label>Green <input type="range" id="sliderGreen" min="0" max="255" value="80"><span class="val" id="valGreen">80</span></label>
+      <label>Blue <input type="range" id="sliderBlue" min="0" max="255" value="60"><span class="val" id="valBlue">60</span></label>
+      <div id="colorPreview"></div>
+
+      <h2>Size &amp; circle</h2>
+      <label>Shape size <input type="range" id="sliderSize" min="2" max="40" value="10"><span class="val" id="valSize">10</span></label>
+      <label>Circle segments <input type="range" id="sliderSegments" min="3" max="64" value="20"><span class="val" id="valSegments">20</span></label>
+
+      <h2>Actions</h2>
+      <div class="action-btns">
+        <button id="btnClear" type="button">Clear canvas</button>
+        <button id="btnPicture" class="secondary" type="button">Draw triangle picture</button>
+      </div>
+
+      <div class="ref-section">
+        <h2>Paper sketch reference</h2>
+        <p style="font-size:0.85rem; color:#aaa; margin:0 0 8px;">
+          Paper sketch (<code>triDraw</code>) — recreated on canvas with the <strong>Draw triangle picture</strong> button.
+        </p>
+        <img src="triDraw.jpg" alt="Paper sketch reference: triDraw" width="280">
+      </div>
+
+      <div class="awesome-note">
+        <strong>Awesomeness (for grader):</strong>
+        Semi-transparent paint via alpha blending;
+        triangle brush rotates to follow stroke direction while dragging;
+        consecutive brush stamps are connected with <code>GL_LINES</code> to reduce gaps.
+      </div>
+    </div>
+  </div>
+
+  <script src="Point.js?v=2"></script>
+  <script src="Triangle.js?v=2"></script>
+  <script src="Circle.js?v=2"></script>
+  <script src="TrianglePicture.js?v=2"></script>
+  <script src="paint.js?v=2"></script>
+</body>
+</html>
